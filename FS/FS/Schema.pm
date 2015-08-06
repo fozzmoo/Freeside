@@ -6981,6 +6981,84 @@ sub tables_hashref {
                         ],
     },
 
+    'event_queue_target' => {
+      'columns' => [
+        'eqtarget',       'serial',  '',     '',      '', '',
+        'name',           'varchar', '',     50,      '', '',
+        'description',    'varchar', 1,      500,     '', '', 
+      ],
+      'primary_key' => 'eqtarget',
+      'unique' => [ ],
+      'index'  => [ ],
+    },
+
+    'event_queue_action' => {
+      'columns' => [
+        'eqaction',       'serial',  '',     '',      '', '',
+        'name',           'varchar', '',     50,      '', '',
+        'description',    'varchar', 1,      500,     '', '', 
+      ],
+      'primary_key' => 'eqaction',
+      'unique' => [ ],
+      'index'  => [ ],
+    },
+
+    'event_queue_status' => {
+      'columns' => [
+        'eqstatus',       'serial',  '',     '',      '', '',
+        'name',           'varchar', '',     50,      '', '',
+        'description',    'varchar', 1,      500,     '', '', 
+      ],
+      'primary_key' => 'eqstatus',
+      'unique' => [ ],
+      'index'  => [ ],
+    },
+
+    'event_queue' => {
+      'columns' => [
+        'eqnum',          'serial',   '',     '',      '', '',
+        'pkgnum',         'integer',  '',     '',      '', '',
+        'svcnum',         'integer',  '',     '',      '', '',
+        'eqaction',       'integer',  '',     '',      '', '',
+        'eqtarget',       'integer',  '',     '',      '', '',
+        'agentnum',       'integer',  '',     '',      '', '',
+        'eqstatus',       'integer',  '',     '',      '', '',
+        'date_entered',   @date_type,                  '', '',
+        'date_to_run',    @date_type,                  '', '',
+        'errors',         'text',     1,      '',      '', '',
+        'tries',          'integer',  1,      '',      '', '',
+      ],
+      'primary_key' => 'eqnum',
+      'unique' => [ ],
+      'index'  => [ ],
+      'foreign_keys' => [
+                          { columns     => [ 'pkgnum' ],
+                            table       => 'cust_pkg',
+                            references  => [ 'pkgnum' ],
+                          },
+                          { columns     => [ 'svcnum' ],
+                            table       => 'cust_svc',
+                            references  => [ 'svcnum' ],
+                          },
+                          { columns     => [ 'eqaction' ],
+                            table       => 'event_queue_action',
+                            references  => [ 'eqaction' ],
+                          },
+                          { columns     => [ 'eqtarget' ],
+                            table       => 'event_queue_target',
+                            references  => [ 'eqtarget' ],
+                          },
+                          { columns     => [ 'agentnum' ],
+                            table       => 'agent',
+                            references  => [ 'agentnum' ],
+                          },
+                          { columns     => [ 'eqstatus' ],
+                            table       => 'event_queue_status',
+                            references  => [ 'eqstatus' ],
+                          },
+                        ],
+    },
+
 
 
 
